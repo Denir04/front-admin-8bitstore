@@ -1,0 +1,42 @@
+<div class="container-lg">
+    <div class="painel" *ngIf="!loading && !error && !confirmAction; else other">
+        <div class="row">
+            <h3 class="col-6">#{{customer.id}} <span class="ms-4">{{customer.nome_completo}}</span></h3>
+            <p class="col-6 fs-4 text-end">{{customer.ativo ? "Ativo" : "Inativo"}}</p>
+        </div>
+        <hr class="border-3"/>
+        <div class="mt-3">
+            <p><span class="fw-bold me-2">Data Nascimento:</span>{{customer.data_nascimento}}</p>
+            <p><span class="fw-bold me-2">CPF:</span>{{customer.cpf | mask: '000.000.000-00' }}</p>
+            <p><span class="fw-bold me-2">Gênero:</span>{{customer.genero}}</p>
+            <p><span class="fw-bold me-2">E-mail:</span>{{customer.email}}</p>
+            <p><span class="fw-bold me-2">Telefone:</span>{{customer.telefone | mask: '(00) 000000000'}}</p>
+        </div>
+        <div class="row">
+            <div class="col-2 ms-auto d-flex justify-content-end">
+                <button class="btn btn-secondary me-3" (click)="goBack()">Voltar</button>
+                <button *ngIf="customer.ativo" class="btn btn-danger" (click)="this.confirmAction = 'inativar'">Inativar</button>
+                <button *ngIf="!customer.ativo" class="btn btn-primary" (click)="this.confirmAction = 'ativar'">Ativar</button>
+            </div>
+        </div>
+    </div>
+    <ng-template #other>
+        <div *ngIf="loading"><p>Carregando</p></div>
+        <div *ngIf="error">Deu erro, man</div>
+        <div *ngIf="confirmAction" class="painel">
+            <p>Tem certeza que deseja realizar esta operação?</p>
+            <button class="btn btn-secondary me-3" (click)="this.confirmAction = ''">Cancelar</button>
+            <button [ngClass]="confirmAction === 'ativar' ? 'btn btn-primary' : 'btn btn-danger'">Confirmar</button>
+        </div>
+    </ng-template>
+</div>
+<!--
+nome_completo: string;
+  data_nascimento: string;
+  cpf: string;
+  genero: string;
+  email: string;
+  telefone: string;
+  ativo: string;
+
+-->
