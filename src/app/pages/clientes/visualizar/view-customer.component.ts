@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 
@@ -22,14 +23,17 @@ export class ViewCustomerComponent implements OnInit {
   loading = true;
   error = false;
   confirmAction = '';
+  success = false;
 
   constructor(
     private customerService: CustomerService,
-    private location :Location 
+    private location :Location,
+    private activedRoute: ActivatedRoute
   ){}
 
   ngOnInit(): void {
-    this.customerService.getOneCustomer("1").subscribe((response) => {
+    this.customer.id = Number(this.activedRoute.snapshot.paramMap.get("id"));
+    this.customerService.getOneCustomer(`${this.customer.id}`).subscribe((response) => {
       this.customer = response.body;
       this.loading = false;
     },() => {
@@ -40,6 +44,24 @@ export class ViewCustomerComponent implements OnInit {
 
   goBack(){
     this.location.back();
+  }
+
+  reloadPage(){
+    window.location.reload();
+  }
+
+  changeAtivo(){
+    this.loading = true;
+    this.customerService.changeAtivo(String(this.customer.id)).subscribe((res) => {
+      this.success = true;
+      this.loading = false;
+      this.confirmAction = '';
+    }, (error) => {
+      console.log(error);
+      this.error = true;
+      this.loading = false;
+      this.confirmAction = '';
+    })
   }
 
 }

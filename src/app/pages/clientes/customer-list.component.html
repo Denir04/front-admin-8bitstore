@@ -168,9 +168,9 @@
         <td>{{ customer.id }}</td>
         <td>{{ customer.nome_completo }}</td>
         <td>{{ customer.data_nascimento }}</td>
-        <td>{{ customer.cpf }}</td>
-        <td>{{ customer.genero }}</td>
-        <td>{{ customer.telefone }}</td>
+        <td>{{ customer.cpf | mask: '000.000.000-00'}}</td>
+        <td>{{ customer.genero === 'M' ? 'MASCULINO': customer.genero === "F" ? "FEMININO" : "OUTRO"  }}</td>
+        <td>{{ customer.telefone | mask: '(00) 000000000'}}</td>
         <td>{{ customer.email }}</td>
         <td>{{customer.ativo ? "Ativo" : "Inativo"}}</td>
         <td><button class="btn btn-primary" (click)="goToViewCustomer(customer.id)">Visualizar</button></td>

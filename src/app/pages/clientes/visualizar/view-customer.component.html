@@ -1,5 +1,5 @@
 <div class="container-lg">
-    <div class="painel" *ngIf="!loading && !error && !confirmAction; else other">
+    <div class="painel" *ngIf="!loading && !error && !confirmAction && !success; else other">
         <div class="row">
             <h3 class="col-6">#{{customer.id}} <span class="ms-4">{{customer.nome_completo}}</span></h3>
             <p class="col-6 fs-4 text-end">{{customer.ativo ? "Ativo" : "Inativo"}}</p>
@@ -23,20 +23,21 @@
     <ng-template #other>
         <div *ngIf="loading"><p>Carregando</p></div>
         <div *ngIf="error">Deu erro, man</div>
+        <div *ngIf="success">
+            <div class="painel text-center">
+                <p class="mb-4">Operação realizada com sucesso!</p>
+                <button
+                    class="btn btn-secondary btn-md"
+                    (click)="this.success = false; reloadPage()"
+                >
+                    OK
+                </button>
+            </div>
+        </div>
         <div *ngIf="confirmAction" class="painel">
             <p>Tem certeza que deseja realizar esta operação?</p>
             <button class="btn btn-secondary me-3" (click)="this.confirmAction = ''">Cancelar</button>
-            <button [ngClass]="confirmAction === 'ativar' ? 'btn btn-primary' : 'btn btn-danger'">Confirmar</button>
+            <button [ngClass]="confirmAction === 'ativar' ? 'btn btn-primary' : 'btn btn-danger'" (click)="changeAtivo()">Confirmar</button>
         </div>
     </ng-template>
 </div>
-<!--
-nome_completo: string;
-  data_nascimento: string;
-  cpf: string;
-  genero: string;
-  email: string;
-  telefone: string;
-  ativo: string;
-
--->
