@@ -24,18 +24,15 @@ export class CustomerListComponent implements OnInit {
     private router: Router
   ) {
     this.customerForm = this.formBuilder.group({
-      clienteId: [''],
-      nomeCompleto: [''],
+      cliente_id: [''],
+      nome_completo: [''],
       email: [''],
-      dataNascimentoMin: [''],
-      dataNascimentoMax: [''],
+      data_nascimento_min: [''],
+      data_nascimento_max: [''],
       cpf: [''],
       telefone: [''],
-      generoMasc: [false],
-      generoFem: [false],
-      generoOther: [false],
-      statusAtivo: [false],
-      statusInativo: [false]
+      generos: [[]],
+      ativos: [[]]
     });
   }
 
@@ -61,7 +58,7 @@ export class CustomerListComponent implements OnInit {
     this.customerService.getAllCustomersQuery(queryParams).subscribe(
       (response) => {
         console.log(response);
-        this.customersList = response.body;
+        this.customersList = response.body.content;
         this.loading = false;
       },
       (error) => {
@@ -73,7 +70,10 @@ export class CustomerListComponent implements OnInit {
   }
 
   onClear() {
-    this.customerForm.reset();
+    this.customerForm.reset({
+      generos: [],
+      ativos: []
+    });
     this.ngOnInit();
   }
 
@@ -81,12 +81,57 @@ export class CustomerListComponent implements OnInit {
     this.router.navigate([`/clientes/visualizar/${id}`])
   }
 
+  onCheckboxChangeGenero(genero: string, event: any) {
+    const selectedGeneros = this.customerForm.get('generos')?.value as string[];
+    if (event.target.checked) {
+      if (!selectedGeneros.includes(genero)) {
+        selectedGeneros.push(genero);
+      }
+    } else {
+      const index = selectedGeneros.indexOf(genero);
+      if (index > -1) {
+        selectedGeneros.splice(index, 1);
+      }
+    }
+    this.customerForm.get('generos')?.setValue(selectedGeneros);
+  }
+
+  isCheckedGenero(genero: string): boolean {
+    const selectedGeneros = this.customerForm.get('generos')?.value as string[];
+    return selectedGeneros.includes(genero);
+  }
+
+  onCheckboxChangeAtivo(ativo: string, event: any){
+    const selectedAtivos = this.customerForm.get('ativos')?.value as string[];
+    if (event.target.checked) {
+      if (!selectedAtivos.includes(ativo)) {
+        selectedAtivos.push(ativo);
+      }
+    } else {
+      const index = selectedAtivos.indexOf(ativo);
+      if (index > -1) {
+        selectedAtivos.splice(index, 1);
+      }
+    }
+    this.customerForm.get('ativos')?.setValue(selectedAtivos);
+  }
+
+  isCheckedAtivo(ativo: string): boolean {
+    const selectedAtivos = this.customerForm.get('ativos')?.value as string[];
+    return selectedAtivos.includes(ativo);
+  }
+
   toQueryParams(formValue: any): string {
     return Object.keys(formValue)
       .filter((key) => !!formValue[key])
       .map(
-        (key) =>
-          encodeURIComponent(key) + '=' + encodeURIComponent(formValue[key])
+        (key) =>{
+            if(key === "generos"){
+              return formValue[key].map((value: string) => encodeURIComponent("genero") + '=' + encodeURIComponent(value)).join('&');
+            }else if(key === "ativos"){
+              return formValue[key].map((value: string) => encodeURIComponent("ativo") + '=' + encodeURIComponent(value)).join('&');
+            }else return encodeURIComponent(key) + '=' + encodeURIComponent(formValue[key])
+        }
       )
       .join('&');
   }
