@@ -1,0 +1,89 @@
+<div class="container-lg">
+    <p class="fs-4" (click)="goBack()">
+        <span role="button"><<< Voltar</span>
+    </p>
+    <div class="pedido-container">
+        <div class="d-flex justify-content-between border-black border-bottom">
+            <h2>Pedido #{{ pedidoCompraDetail.id }}</h2>
+            <span><strong class="fw-bold">Data Pedido:  </strong>{{pedidoCompraDetail.data_criacao}}</span>
+            <p>{{ pedidoCompraDetail.status.replace("_"," ") }}</p>
+        </div>
+
+        <div class="pedido-section">
+            <h3 class="fw-bold">Itens do Pedido</h3>
+            <div *ngFor="let item of pedidoCompraDetail.itens" class="item">
+              <img [src]="item.imagem" alt="{{ item.titulo }}" class="item-imagem">
+              <div class="item-detalhes">
+                <p><strong>Produto:</strong> {{ item.titulo }}</p>
+                <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
+                <p><strong>Preço Unitário:</strong> R$ {{ item.preco }}</p>
+                <p><strong>Total:</strong> R$ {{ item.preco * item.quantidade }}</p>
+              </div>
+            </div>
+          </div>
+      
+        <div class="pedido-section">
+          <h3  class="fw-bold">Detalhes do Pedido</h3>
+          <p><strong>Frete:</strong> R$ {{ pedidoCompraDetail.frete }}</p>
+          <p><strong>Valor Total:</strong> R$ {{ pedidoCompraDetail.valor_total }}</p>
+        </div>
+  
+        <div class="pedido-section">
+          <h3  class="fw-bold">Endereço de Entrega</h3>
+          <p>{{ pedidoCompraDetail.endereco_entrega.tipoLogradouro }} {{ pedidoCompraDetail.endereco_entrega.logradouro }}, {{ pedidoCompraDetail.endereco_entrega.numero }}</p>
+          <p>{{ pedidoCompraDetail.endereco_entrega.bairro }} - {{ pedidoCompraDetail.endereco_entrega.cidade }}, {{ pedidoCompraDetail.endereco_entrega.estado }}</p>
+          <p>{{ pedidoCompraDetail.endereco_entrega.pais }}, CEP: {{ pedidoCompraDetail.endereco_entrega.cep }}</p>
+        </div>
+      
+        <div class="pedido-section">
+          <h3  class="fw-bold">Endereço de Cobrança</h3>
+          <p>{{ pedidoCompraDetail.endereco_cobranca.tipoLogradouro }} {{ pedidoCompraDetail.endereco_cobranca.logradouro }}, {{ pedidoCompraDetail.endereco_cobranca.numero }}</p>
+          <p>{{ pedidoCompraDetail.endereco_cobranca.bairro }} - {{ pedidoCompraDetail.endereco_cobranca.cidade }}, {{ pedidoCompraDetail.endereco_cobranca.estado }}</p>
+          <p>{{ pedidoCompraDetail.endereco_cobranca.pais }}, CEP: {{ pedidoCompraDetail.endereco_cobranca.cep }}</p>
+        </div>
+
+        <div *ngIf="!errorStatus && !success; else other">
+            <div *ngIf="pedidoCompraDetail.status === 'EM_PROCESSAMENTO'"class="actions d-flex justify-content-end">
+                <button class="btn btn-danger me-3" (click)="changeStatus('3')">Pagamento Rejeitado</button>
+                <button class="btn btn-primary" (click)="changeStatus('2')">Pagamento Realizado</button>
+            </div>
+            <div *ngIf="pedidoCompraDetail.status === 'PAGAMENTO_REALIZADO'"class="actions d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="changeStatus('4')">Em Transporte</button>
+            </div>
+            <div *ngIf="pedidoCompraDetail.status === 'EM_TRANSPORTE'"class="actions d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="changeStatus('5')">Entregue</button>
+            </div>
+        </div>
+
+        <ng-template #other>
+            <div class="actions d-flex justify-content-end">
+                <div *ngIf="success">
+                    <span>Operação Realizado com Sucesso</span>
+                     <button class="ms-3 btn btn-secondary" (click)="this.success = false; madeReload();">OK</button>
+                </div>
+                <div *ngIf="errorStatus">
+                    <span>Houve um erro ao alterar o status</span>
+                     <button class="ms-3 btn btn-secondary" (click)="this.errorStatus = false; madeReload();">OK</button>
+                </div>
+            </div>
+        </ng-template>
+
+
+        <!--<div class="pedido-section">
+            <h3  class="fw-bold">Cartões</h3>
+            <div *ngFor="let cartao of pedidoCompraDetail.cartoes" class="cartao">
+              <p><strong>Bandeira:</strong> {{ cartao.bandeira | uppercase }}</p>
+              <p><strong>Últimos 4 dígitos:</strong> **** **** **** {{ cartao.ultimosNumero }}</p>
+              <p><strong>Valor Pago:</strong> R$ {{ cartao.valor }}</p>
+            </div>
+          </div>
+      
+        <div *ngIf="pedidoCompraDetail.cupons_troca.length > 0" class="pedido-section">
+          <h3  class="fw-bold">Cupons de Troca</h3>
+          <div *ngFor="let cupom of pedidoCompraDetail.cupons_troca">
+            <p><strong>Código:</strong> {{ cupom.codigo }}</p>
+            <p><strong>Valor:</strong> R$ {{ cupom.valor }}</p>
+          </div>
+        </div>
+      </div>-->
+</div>

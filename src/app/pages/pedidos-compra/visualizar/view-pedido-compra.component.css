@@ -1,0 +1,36 @@
+.pedido-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .pedido-section {
+    margin-top: 20px;
+  }
+  
+  .item {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .item-imagem {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+    border-radius: 8px;
+  }
+  
+  .item-detalhes {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  h2, h3 {
+    color: #333;
+  }
+  
+  .cartao {
+    margin-bottom: 10px;
+  }
