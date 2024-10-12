@@ -44,14 +44,14 @@
 
         <div *ngIf="!errorStatus && !success; else other">
             <div *ngIf="pedidoCompraDetail.status === 'EM_PROCESSAMENTO'"class="actions d-flex justify-content-end">
-                <button class="btn btn-danger me-3" (click)="changeStatus('3')">Pagamento Rejeitado</button>
-                <button class="btn btn-primary" (click)="changeStatus('2')">Pagamento Realizado</button>
+                <button id="btn-rejeitado" class="btn btn-danger me-3" (click)="changeStatus('3')">Pagamento Rejeitado</button>
+                <button id="btn-aprovado" class="btn btn-primary" (click)="changeStatus('2')">Pagamento Realizado</button>
             </div>
             <div *ngIf="pedidoCompraDetail.status === 'PAGAMENTO_REALIZADO'"class="actions d-flex justify-content-end">
-                <button class="btn btn-primary" (click)="changeStatus('4')">Em Transporte</button>
+                <button id="btn-transporte" class="btn btn-primary" (click)="changeStatus('4')">Em Transporte</button>
             </div>
             <div *ngIf="pedidoCompraDetail.status === 'EM_TRANSPORTE'"class="actions d-flex justify-content-end">
-                <button class="btn btn-primary" (click)="changeStatus('5')">Entregue</button>
+                <button id="btn-entregue" class="btn btn-primary" (click)="changeStatus('5')">Entregue</button>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
             <div class="actions d-flex justify-content-end">
                 <div *ngIf="success">
                     <span>Operação Realizado com Sucesso</span>
-                     <button class="ms-3 btn btn-secondary" (click)="this.success = false; madeReload();">OK</button>
+                     <button id="btn-ok" class="ms-3 btn btn-secondary" (click)="this.success = false; madeReload();">OK</button>
                 </div>
                 <div *ngIf="errorStatus">
                     <span>Houve um erro ao alterar o status</span>

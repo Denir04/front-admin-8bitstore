@@ -13,14 +13,14 @@
           </tr>
         </thead>
         <tbody *ngIf="!loading && !error && pedidoCompraList.length else other">
-          <tr *ngFor="let pedidoCompra of pedidoCompraList">
+          <tr *ngFor="let pedidoCompra of pedidoCompraList; let i = index">
             <td>{{ pedidoCompra.id }}</td>
             <td>{{ pedidoCompra.status.replace("_"," ") }}</td>
             <td>{{ pedidoCompra.data_criacao}}</td>
             <td>{{ pedidoCompra.valor_total | currency:'BRL':'symbol':'1.2-2' }}</td>
             <td>{{ pedidoCompra.nome_cliente }}</td>
             <td>{{ pedidoCompra.cpf_cliente | mask: '000.000.000-00'}}</td>
-            <td><button class="btn btn-primary" (click)="goToViewPedido(pedidoCompra.id)">Visualizar</button></td>
+            <td><button class="btn btn-primary" id="btn-visualizar-{{i}}" (click)="goToViewPedido(pedidoCompra.id)">Visualizar</button></td>
           </tr>
         </tbody>
       </table>
