@@ -1,0 +1,40 @@
+<div class="container-lg">
+    <h1>Pedidos de Troca</h1>
+    <table class="table table-striped">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">#</th>
+            <td>Status</td>
+            <td>Data Pedido</td>
+            <td>Valor Total</td>
+            <td>Cliente</td>
+            <td>CPF</td>
+            <td>Ações</td>
+          </tr>
+        </thead>
+        <tbody *ngIf="!loading && !error && pedidoTrocaList.length else other">
+          <tr *ngFor="let pedidoTroca of pedidoTrocaList; let i = index">
+            <td>{{ pedidoTroca.id }}</td>
+            <td>{{ pedidoTroca.status.replace("_"," ") }}</td>
+            <td>{{ pedidoTroca.data_criacao}}</td>
+            <td>{{ pedidoTroca.valor_total | currency:'BRL':'symbol':'1.2-2' }}</td>
+            <td>{{ pedidoTroca.nome_cliente }}</td>
+            <td>{{ pedidoTroca.cpf_cliente | mask: '000.000.000-00'}}</td>
+            <td><button class="btn btn-primary" id="btn-visualizar-{{i}}" (click)="goToViewPedido(pedidoTroca.id)">Visualizar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    <ng-template #other class="painel">
+      <tr *ngIf="loading" class="painel">
+        <td colspan="10" class="py-5 text-center fw-bold h4">Carregando...</td>
+      </tr>
+      <tr *ngIf="error"class="painel">
+        <td colspan="10" class="py-5 text-center fw-bold h4">Houve erro ao carregar os pedidos de troca. :(</td>
+      </tr>
+      <tr *ngIf="!loading && !error && pedidoTrocaList.length === 0"class="painel">
+        <td colspan="10" class="py-5 text-center fw-bold h4">Não foi encontrado nenhum pedido de troca</td>
+      </tr>
+    </ng-template>
+  </div>
+  
+

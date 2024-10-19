@@ -11,9 +11,11 @@ import { ViewCustomerComponent } from './pages/clientes/visualizar/view-customer
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { PedidosCompraComponent } from './pages/pedidos-compra/pedidos-compra.component';
 import { ViewPedidoCompraComponent } from './pages/pedidos-compra/visualizar/view-pedido-compra.component';
+import { PedidosTrocaComponent } from './pages/pedidos-troca/pedidos-troca.component';
+import { ViewPedidoTrocaComponent } from './pages/pedidos-troca/visualizar/view-pedido-troca.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomerListComponent, ViewCustomerComponent, PedidosCompraComponent, ViewPedidoCompraComponent],
+  declarations: [AppComponent, CustomerListComponent, ViewCustomerComponent, PedidosCompraComponent, ViewPedidoCompraComponent, PedidosTrocaComponent, ViewPedidoTrocaComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

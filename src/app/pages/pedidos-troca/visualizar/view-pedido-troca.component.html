@@ -1,0 +1,61 @@
+<div class="container-lg">
+    <p class="fs-4" (click)="goBack()">
+        <span role="button"><<< Voltar</span>
+    </p>
+    <div *ngIf="!loading" class="pedido-container">
+        <div class="d-flex justify-content-between border-black border-bottom">
+            <h2>Pedido Troca #{{ pedidoTrocaDetail.id }}</h2>
+            <span><strong class="fw-bold">Data Pedido:  </strong>{{pedidoTrocaDetail.data_criacao}}</span>
+            <p>{{ pedidoTrocaDetail.status.replace("_"," ") }}</p>
+        </div>
+        <div class="pedido-section">
+            <h3  class="fw-bold">Cliente <span class="fw-normal">{{ pedidoTrocaDetail.cliente_nome }}</span></h3>
+        </div>
+        <div class="pedido-section">
+            <h3 class="fw-bold">Itens do Pedido</h3>
+            <div *ngFor="let item of pedidoTrocaDetail.itens" class="item">
+              <img [src]="item.imagem" alt="{{ item.titulo }}" class="item-imagem">
+              <div class="item-detalhes">
+                <p><strong>Produto:</strong> {{ item.titulo }}</p>
+                <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
+                <p><strong>Preço Unitário:</strong> R$ {{ item.preco }}</p>
+                <p><strong>Total:</strong> R$ {{ item.preco * item.quantidade }}</p>
+              </div>
+            </div>
+          </div>
+      
+        <div class="pedido-section">
+          <h3  class="fw-bold">Detalhes do Pedido</h3>
+          <p><strong>Valor Total:</strong> R$ {{ pedidoTrocaDetail.valor_total }}</p>
+        </div>
+
+        <div *ngIf="!errorStatus && !success; else other">
+            <div *ngIf="pedidoTrocaDetail.status === 'TROCA_SOLICITADA'"class="actions d-flex justify-content-end">
+                <button id="btn-rejeitado" class="btn btn-danger me-3" (click)="changeStatus('3')">Troca Rejeitada</button>
+                <button id="btn-aprovado" class="btn btn-primary" (click)="changeStatus('2')">Troca Aprovada</button>
+            </div>
+            <div *ngIf="pedidoTrocaDetail.status === 'TROCA_APROVADA'"class="actions d-flex justify-content-end">
+                <button id="btn-em-troca" class="btn btn-primary" (click)="changeStatus('4')">Em Troca</button>
+            </div>
+            <div *ngIf="pedidoTrocaDetail.status === 'EM_TROCA'"class="actions d-flex justify-content-end">
+                <button id="btn-recebida" class="btn btn-primary" (click)="changeStatus('5')">Troca Recebida</button>
+            </div>
+            <div *ngIf="pedidoTrocaDetail.status === 'TROCA_RECEBIDA'"class="actions d-flex justify-content-end">
+                <button id="btn-finalizada" class="btn btn-primary" (click)="changeStatus('6')">Troca Finalizada</button>
+            </div>
+        </div>
+
+        <ng-template #other>
+            <div class="actions d-flex justify-content-end">
+                <div *ngIf="success">
+                    <span>Operação Realizado com Sucesso</span>
+                     <button id="btn-ok" class="ms-3 btn btn-secondary" (click)="this.success = false; madeReload();">OK</button>
+                </div>
+                <div *ngIf="errorStatus">
+                    <span>Houve um erro ao alterar o status</span>
+                     <button class="ms-3 btn btn-secondary" (click)="this.errorStatus = false; madeReload();">OK</button>
+                </div>
+            </div>
+        </ng-template>
+</div>
+
