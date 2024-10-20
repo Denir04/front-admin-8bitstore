@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { itensDevolver } from '../models/itensDevolvidos';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class PedidoTrocaService {
 
   changeStatus(pedidoId: number, codigo: string):Observable<HttpResponse<any>>{
     return this.http.put(`${this.apiUrl}/alterar-status?pedidoId=${pedidoId}&codigo=${codigo}`,null,{observe: 'response'});
+  }
+
+  finalizarTroca(pedidoId: number, itensDevolver: itensDevolver){
+    return this.http.post(`${this.apiUrl}/finalizar?pedidoId=${pedidoId}`,itensDevolver, {observe: 'response'});
   }
 }

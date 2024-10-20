@@ -1,0 +1,39 @@
+<div class="container-lg">
+    <h1>Produtos</h1>
+    <table class="table table-striped">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">#</th>
+            <td>ISBN</td>
+            <td>Titulo</td>
+            <td>Valor</td>
+            <td>Grupo Precificação</td>
+            <td>Estoque</td>
+            <td>Ações</td>
+          </tr>
+        </thead>
+        <tbody *ngIf="!loading && !error && produtosList.length else other">
+          <tr *ngFor="let produto of produtosList; let i = index">
+            <td>{{ produto.id }}</td>
+            <td>{{ produto.isbn }}</td>
+            <td>{{ produto.titulo }}</td>
+            <td>{{ produto.preco | currency:'BRL':'symbol':'1.2-2'}}</td>
+            <td>{{ produto.grupoPrecificacaoId }}</td>
+            <td>{{ produto.estoque }}</td>
+            <td><button class="btn btn-primary" id="btn-visualizar-{{i}}" (click)="goToViewProduto(produto.id)">Visualizar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    <ng-template #other class="painel">
+      <tr *ngIf="loading" class="painel">
+        <td colspan="10" class="py-5 text-center fw-bold h4">Carregando...</td>
+      </tr>
+      <tr *ngIf="error"class="painel">
+        <td colspan="10" class="py-5 text-center fw-bold h4">Houve erro ao carregar os produtos. :(</td>
+      </tr>
+      <tr *ngIf="!loading && !error && produtosList.length === 0"class="painel">
+        <td colspan="10" class="py-5 text-center fw-bold h4">Não foi encontrado nenhum produto</td>
+      </tr>
+    </ng-template>
+  </div>
+  

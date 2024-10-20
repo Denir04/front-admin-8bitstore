@@ -1,8 +1,9 @@
 <div class="container-lg">
+    <div [ngClass]="{'blur-background': isModalOpen}">
     <p class="fs-4" (click)="goBack()">
         <span role="button"><<< Voltar</span>
     </p>
-    <div *ngIf="!loading" class="pedido-container">
+    <div *ngIf="!loading; else otherLoading" class="pedido-container">
         <div class="d-flex justify-content-between border-black border-bottom">
             <h2>Pedido Troca #{{ pedidoTrocaDetail.id }}</h2>
             <span><strong class="fw-bold">Data Pedido:  </strong>{{pedidoTrocaDetail.data_criacao}}</span>
@@ -41,21 +42,76 @@
                 <button id="btn-recebida" class="btn btn-primary" (click)="changeStatus('5')">Troca Recebida</button>
             </div>
             <div *ngIf="pedidoTrocaDetail.status === 'TROCA_RECEBIDA'"class="actions d-flex justify-content-end">
-                <button id="btn-finalizada" class="btn btn-primary" (click)="changeStatus('6')">Troca Finalizada</button>
+                <button id="btn-finalizada" class="btn btn-primary" (click)="openModal()">Troca Finalizada</button>
             </div>
         </div>
-
-        <ng-template #other>
-            <div class="actions d-flex justify-content-end">
-                <div *ngIf="success">
-                    <span>Operação Realizado com Sucesso</span>
-                     <button id="btn-ok" class="ms-3 btn btn-secondary" (click)="this.success = false; madeReload();">OK</button>
-                </div>
-                <div *ngIf="errorStatus">
-                    <span>Houve um erro ao alterar o status</span>
-                     <button class="ms-3 btn btn-secondary" (click)="this.errorStatus = false; madeReload();">OK</button>
-                </div>
+    </div>
+    <ng-template #other>
+        <div class="actions d-flex justify-content-end">
+            <div *ngIf="success">
+                <span>Operação Realizado com Sucesso</span>
+                 <button id="btn-ok" class="ms-3 btn btn-secondary" (click)="this.success = false; madeReload();">OK</button>
             </div>
-        </ng-template>
+            <div *ngIf="errorStatus">
+                <span>Houve um erro ao alterar o status</span>
+                 <button class="ms-3 btn btn-secondary" (click)="this.errorStatus = false; madeReload();">OK</button>
+            </div>
+        </div>
+    </ng-template>
 </div>
+<div *ngIf="!loading" class="modal fade show d-block" tabindex="-1" [ngClass]="{'d-none': !isModalOpen}">
+    <div *ngIf="!successTroca; else otherModal" class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Selecione os Produtos a Retornar ao Estoque</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li *ngFor="let item of pedidoTrocaDetail['itens']" class="row align-items-center mb-3">
+                    <img [src]="item.imagem" alt="placeholder" style="width: 150px; height: 150px; object-fit: cover;"/>
+                    <span class="col">{{ item.titulo }}</span> 
+                    <div class="col row align-items-center">
+                        <button class="btn btn-secondary col" (click)="removeItemUnit(item.produtoId)" [disabled]="getItemUnit(item.produtoId) === 0">-</button>
+                        <p class="col text-center">{{getItemUnit(item.produtoId)}}</p>
+                        <button class="btn btn-secondary col" (click)="addItemUnit(item.produtoId)" [disabled]="getItemUnit(item.produtoId) === item.quantidade">+</button>
+                    </div>
+                    <span class="col text-end"> R{{ item.preco | currency: 'USD' }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            (click)="finalizarTroca()"
+            [disabled]="loadingTroca"
+          >
+            {{loadingTroca ? "Carregando" : "Devolver"}}
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #otherModal>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"></div>
+                <div class="modal-body">
+                    <p class="mb-4">Operação realizada com sucesso!</p>
+                        <button
+                        class="btn btn-secondary btn-md"
+                        (click)="confirmSuccess()"
+                        >
+                        OK
+                        </button>
+                </div>
+                <div class="modal-footer"></div>
+              </div>
+        </div>
+    </ng-template>
+  </div>
+<ng-template #otherLoading>
+    <div>Carregando...</div>
+</ng-template>
 
