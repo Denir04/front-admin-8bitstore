@@ -15,6 +15,7 @@ import { PedidosTrocaComponent } from './pages/pedidos-troca/pedidos-troca.compo
 import { ViewPedidoTrocaComponent } from './pages/pedidos-troca/visualizar/view-pedido-troca.component';
 import { ProdutosComponent } from './pages/produtos/produtos.component';
 import { HistoricoVendasComponent } from './pages/produtos/historico-vendas/historico-vendas.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent, CustomerListComponent, ViewCustomerComponent, PedidosCompraComponent, ViewPedidoCompraComponent, PedidosTrocaComponent, ViewPedidoTrocaComponent, ProdutosComponent, HistoricoVendasComponent],
@@ -26,6 +27,7 @@ import { HistoricoVendasComponent } from './pages/produtos/historico-vendas/hist
     NgxMaskDirective,
     NgxMaskPipe,
     ReactiveFormsModule,
+    NgChartsModule
   ],
   providers: [
     provideNgxMask({

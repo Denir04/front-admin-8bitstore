@@ -1,3 +1,14 @@
 <div class="container-lg">
     <h1>Histórico de Vendas</h1>
+    <div *ngIf="!loading">
+      <div style="display: block;">
+        <canvas 
+        baseChart
+        [data]="lineChartData"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"
+        [type]="lineChartType">
+      </canvas>
+      </div>
+    </div>
 </div>
