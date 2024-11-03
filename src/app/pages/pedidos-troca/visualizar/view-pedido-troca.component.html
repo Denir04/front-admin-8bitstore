@@ -19,15 +19,15 @@
               <div class="item-detalhes">
                 <p><strong>Produto:</strong> {{ item.titulo }}</p>
                 <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
-                <p><strong>Preço Unitário:</strong> R$ {{ item.preco }}</p>
-                <p><strong>Total:</strong> R$ {{ item.preco * item.quantidade }}</p>
+                <p><strong>Preço Unitário:</strong> {{ item.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
+                <p><strong>Total:</strong> R$ {{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2' }}</p>
               </div>
             </div>
           </div>
       
         <div class="pedido-section">
           <h3  class="fw-bold">Detalhes do Pedido</h3>
-          <p><strong>Valor Total:</strong> R$ {{ pedidoTrocaDetail.valor_total }}</p>
+          <p><strong>Valor Total:</strong> {{ pedidoTrocaDetail.valor_total | currency:'BRL':'symbol':'1.2-2' }}</p>
         </div>
 
         <div *ngIf="!errorStatus && !success; else other">

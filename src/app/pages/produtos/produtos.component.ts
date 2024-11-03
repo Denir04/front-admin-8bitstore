@@ -40,4 +40,8 @@ export class ProdutosComponent implements OnInit {
     this.router.navigate([`produtos/visualizar/${id}`])
   }
 
+  goToHistoricoVendas(){
+    this.router.navigate(['produtos/historico-vendas']);
+  }
+
 }

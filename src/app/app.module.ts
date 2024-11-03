@@ -14,9 +14,10 @@ import { ViewPedidoCompraComponent } from './pages/pedidos-compra/visualizar/vie
 import { PedidosTrocaComponent } from './pages/pedidos-troca/pedidos-troca.component';
 import { ViewPedidoTrocaComponent } from './pages/pedidos-troca/visualizar/view-pedido-troca.component';
 import { ProdutosComponent } from './pages/produtos/produtos.component';
+import { HistoricoVendasComponent } from './pages/produtos/historico-vendas/historico-vendas.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomerListComponent, ViewCustomerComponent, PedidosCompraComponent, ViewPedidoCompraComponent, PedidosTrocaComponent, ViewPedidoTrocaComponent, ProdutosComponent],
+  declarations: [AppComponent, CustomerListComponent, ViewCustomerComponent, PedidosCompraComponent, ViewPedidoCompraComponent, PedidosTrocaComponent, ViewPedidoTrocaComponent, ProdutosComponent, HistoricoVendasComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
