@@ -12,4 +12,12 @@ export class ProdutoService {
   getAllProducts(): Observable<HttpResponse<any>> {
     return this.http.get(`${this.apiUrl}/produto/listar-admin`, { observe: 'response' });
   }
+
+  getAllProductsSelect() :Observable<HttpResponse<any>>{
+    return this.http.get(`${this.apiUrl}/produto/listar-select`, {observe: 'response'});
+  }
+
+  getAllProductsMetadados() :Observable<HttpResponse<any>>{
+    return this.http.get(`${this.apiUrl}/produto/metadados`, {observe: 'response'});
+  }
 }

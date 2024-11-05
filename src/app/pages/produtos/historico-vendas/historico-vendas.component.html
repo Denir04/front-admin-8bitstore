@@ -1,5 +1,67 @@
 <div class="container-lg">
     <h1>Histórico de Vendas</h1>
+    <form class="painel mb-4" [formGroup]="vendasForm" (submit)="onSubmit()">
+      <div class="row mb-4">
+        <div class="form-group col">
+          <label for="item_select">{{ isCategoria ? "Selecione uma Categoria" : "Selecione um Produto" }}</label>
+          <select id="item_select" class="form-control mb-2" formControlName="item_select" (change)="handleChangeSelect()">
+            <option value="">-- {{ isCategoria ? "Selecione uma Categoria" : "Selecione um Produto" }} --</option>
+            <ng-container *ngIf="!isCategoria">
+              <option *ngFor="let produto of produtoValues" [value]="produto?.id">
+                {{ produto?.titulo }}
+              </option>
+            </ng-container>
+            <ng-container *ngIf="isCategoria">
+              <option *ngFor="let categoria of categoriaValues" [value]="categoria?.id">
+                {{ categoria?.nome }}
+              </option>
+            </ng-container>
+          </select>
+          <span class="ticket me-3" *ngFor="let item of itensSelected">
+            <span (click)="removeItem(item.id)">&#10005;</span>{{ "   " + item.titulo}}
+          </span>
+        </div>
+
+        <div class="ms-auto col-md-2">
+          <label for="data_min" class="form-label"
+            >Data Min.</label
+          >
+          <input
+            type="date"
+            class="form-control"
+            id="data_min"
+            formControlName="data_min"
+            max="2099-12-31"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="data_max" class="form-label"
+            >Data Max.</label
+          >
+          <input
+            type="date"
+            class="form-control"
+            id="data_max"
+            formControlName="data_max"
+            max="2099-12-31"
+          />
+        </div>
+      </div>
+      <div class="col d-flex align-items-end justify-content-between">
+        <button *ngIf="isCategoria" (click)="changeTypeSearch()" type="button" class="btn btn-info" style="color: white">Análise por Produto</button>
+        <button *ngIf="!isCategoria" (click)="changeTypeSearch()" type="button" class="btn btn-warning" style="color: white">Análise por Categoria</button>
+        <div>
+          <button type="submit" class="btn btn-primary">Buscar</button>
+          <button
+            type="button"
+            class="btn btn-secondary ms-3"
+            (click)="limpar()"
+          >
+            Limpar
+          </button>
+        </div>
+      </div>
+    </form>
     <div *ngIf="!loading">
       <div style="display: block;">
         <canvas 
