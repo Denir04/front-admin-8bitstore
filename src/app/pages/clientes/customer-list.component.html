@@ -123,6 +123,7 @@
             <input
               class="form-check-input"
               type="checkbox"
+              data-testid="btn-status-ativo"
               id="status_ativo"
               (change)="onCheckboxChangeAtivo('true', $event)"
               [checked]="isCheckedAtivo('true')"
@@ -144,7 +145,7 @@
         </div>
       </div>
       <div class="col d-flex align-items-end justify-content-end">
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <button data-testid="btn-submit-buscar" type="submit" class="btn btn-primary">Buscar</button>
         <button
           type="button"
           class="btn btn-secondary ms-3"
@@ -171,7 +172,7 @@
       </tr>
     </thead>
     <tbody *ngIf="!loading && !error && customersList.length else other">
-      <tr *ngFor="let customer of customersList">
+      <tr *ngFor="let customer of customersList; index as i">
         <td>{{ customer.id }}</td>
         <td>{{ customer.nome_completo }}</td>
         <td>{{ customer.data_nascimento }}</td>
@@ -180,7 +181,7 @@
         <td>{{ customer.telefone | mask: '(00) 000000000'}}</td>
         <td>{{ customer.email }}</td>
         <td>{{customer.ativo ? "Ativo" : "Inativo"}}</td>
-        <td><button class="btn btn-primary" (click)="goToViewCustomer(customer.id)">Visualizar</button></td>
+        <td><button [id]="'visualizar-cliente-'+i" class="btn btn-primary" (click)="goToViewCustomer(customer.id)">Visualizar</button></td>
       </tr>
     </tbody>
   </table>

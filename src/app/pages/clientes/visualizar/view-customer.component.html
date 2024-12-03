@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-2 ms-auto d-flex justify-content-end">
                 <button class="btn btn-secondary me-3" (click)="goBack()">Voltar</button>
-                <button *ngIf="customer.ativo" class="btn btn-danger" (click)="this.confirmAction = 'inativar'">Inativar</button>
+                <button data-testid="btn-inativar" *ngIf="customer.ativo" class="btn btn-danger" (click)="this.confirmAction = 'inativar'">Inativar</button>
                 <button *ngIf="!customer.ativo" class="btn btn-primary" (click)="this.confirmAction = 'ativar'">Ativar</button>
             </div>
         </div>
@@ -27,6 +27,7 @@
             <div class="painel text-center">
                 <p class="mb-4">Operação realizada com sucesso!</p>
                 <button
+                    data-testid="btn-ok"
                     class="btn btn-secondary btn-md"
                     (click)="this.success = false; reloadPage()"
                 >
@@ -37,7 +38,7 @@
         <div *ngIf="confirmAction" class="painel">
             <p>Tem certeza que deseja realizar esta operação?</p>
             <button class="btn btn-secondary me-3" (click)="this.confirmAction = ''">Cancelar</button>
-            <button [ngClass]="confirmAction === 'ativar' ? 'btn btn-primary' : 'btn btn-danger'" (click)="changeAtivo()">Confirmar</button>
+            <button data-testid="btn-confirm" [ngClass]="confirmAction === 'ativar' ? 'btn btn-primary' : 'btn btn-danger'" (click)="changeAtivo()">Confirmar</button>
         </div>
     </ng-template>
 </div>

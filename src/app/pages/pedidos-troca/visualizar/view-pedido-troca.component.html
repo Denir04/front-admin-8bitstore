@@ -68,13 +68,13 @@
         </div>
         <div class="modal-body">
             <ul>
-                <li *ngFor="let item of pedidoTrocaDetail['itens']" class="row align-items-center mb-3">
+                <li *ngFor="let item of pedidoTrocaDetail['itens']; index as i" class="row align-items-center mb-3">
                     <img [src]="item.imagem" alt="placeholder" style="width: 150px; height: 150px; object-fit: cover;"/>
                     <span class="col">{{ item.titulo }}</span> 
                     <div class="col row align-items-center">
                         <button class="btn btn-secondary col" (click)="removeItemUnit(item.produtoId)" [disabled]="getItemUnit(item.produtoId) === 0">-</button>
                         <p class="col text-center">{{getItemUnit(item.produtoId)}}</p>
-                        <button class="btn btn-secondary col" (click)="addItemUnit(item.produtoId)" [disabled]="getItemUnit(item.produtoId) === item.quantidade">+</button>
+                        <button [id]="'btn-add-'+i" class="btn btn-secondary col" (click)="addItemUnit(item.produtoId)" [disabled]="getItemUnit(item.produtoId) === item.quantidade">+</button>
                     </div>
                     <span class="col text-end"> R{{ item.preco | currency: 'USD' }}</span>
                 </li>
@@ -83,6 +83,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
           <button 
+            data-testid="btn-devolver"
             type="button" 
             class="btn btn-primary" 
             (click)="finalizarTroca()"
@@ -100,6 +101,7 @@
                 <div class="modal-body">
                     <p class="mb-4">Operação realizada com sucesso!</p>
                         <button
+                        id="btn-ok"
                         class="btn btn-secondary btn-md"
                         (click)="confirmSuccess()"
                         >
